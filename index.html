@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Blog de regulación de gaming en México. Análisis jurídico sobre licencias DGJS, LFPIORPI, impuestos y cumplimiento normativo.">
+    <title>Regulación de Gaming en México | Blog Jurídico</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+            background-color: #f5f7fa;
+            color: #2c3e50;
+        }
+
+        .App {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.95;
+            font-weight: 300;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            flex: 1;
+            width: 100%;
+        }
+
+        /* Search & Filter */
+        .search-filter {
+            margin-bottom: 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .search-box, .filter-box {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .search-box label, .filter-box label {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #2c3e50;
+            font-size: 0.9rem;
+        }
+
+        .search-box input, .filter-box select {
+            padding: 0.75rem;
+            border: 2px solid #e0e6ed;
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .search-box input:focus, .filter-box select:focus {
+            outline: none;
+            border-color: #2a5298;
+            box-shadow: 0 0 0 3px rgba(42, 82, 152, 0.1);
+        }
+
+        /* Post List */
+        .post-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .post-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .post-card:hover {
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+            transform: translateY(-4px);
+        }
+
+        .post-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            background-color: #e0e6ed;
+        }
+
+        .post-content {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+
+        .post-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.75rem;
+            font-size: 0.85rem;
+            color: #7f8c8d;
+        }
+
+        .post-category {
+            background-color: #2a5298;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .post-title {
+            font-size: 1.35rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            color: #1e3c72;
+            line-height: 1.3;
+        }
+
+        .post-excerpt {
+            color: #7f8c8d;
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            flex: 1;
+        }
+
+        .post-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 1rem;
+            border-top: 1px solid #ecf0f1;
+        }
+
+        .post-date {
+            font-size: 0.85rem;
+            color: #95a5a6;
+        }
+
+        .post-comments {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            font-size: 0.85rem;
+            color: #7f8c8d;
+        }
+
+        /* Post Detail */
+        .post-detail {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .post-detail-header {
+            background-color: #f8f9fa;
+            padding: 2rem;
+            border-bottom: 1px solid #ecf0f1;
+        }
+
+        .post-detail-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #2a5298;
+            text-decoration: none;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .post-detail-back:hover {
+            gap: 1rem;
+        }
+
+        .post-detail-header h1 {
+            font-size: 2rem;
+            color: #1e3c72;
+            margin-bottom: 1rem;
+            line-height: 1.3;
+        }
+
+        .post-detail-meta {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+            font-size: 0.95rem;
+            color: #7f8c8d;
+        }
+
+        .post-detail-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .post-detail-body {
+            padding: 2rem;
+        }
+
+        .post-detail-body h2 {
+            font-size: 1.5rem;
+            color: #1e3c72;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .post-detail-body h3 {
+            font-size: 1.2rem;
+            color: #2a5298;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .post-detail-body p {
+            line-height: 1.8;
+            margin-bottom: 1rem;
+            color: #2c3e50;
+        }
+
+        .post-detail-body ul, .post-detail-body ol {
+            margin-left: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .post-detail-body li {
+            margin-bottom: 0.5rem;
+            line-height: 1.6;
+        }
+
+        .post-detail-body strong {
+            color: #1e3c72;
+            font-weight: 700;
+        }
+
+        /* Comments Section */
+        .comments-section {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 2px solid #ecf0f1;
+        }
+
+        .comments-section h2 {
+            font-size: 1.5rem;
+            color: #1e3c72;
+            margin-bottom: 1.5rem;
+        }
+
+        .comment-form {
+            background-color: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 6px;
+            margin-bottom: 2rem;
+        }
+
+        .comment-form h3 {
+            margin-bottom: 1rem;
+            color: #1e3c72;
+            font-size: 1.1rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #2c3e50;
+            font-size: 0.95rem;
+        }
+
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #e0e6ed;
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: #2a5298;
+            box-shadow: 0 0 0 3px rgba(42, 82, 152, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background-color: #2a5298;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #1e3c72;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(42, 82, 152, 0.3);
+        }
+
+        /* Comments List */
+        .comments-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .comment {
+            background-color: white;
+            padding: 1.5rem;
+            border-left: 4px solid #2a5298;
+            border-radius: 4px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .comment-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.75rem;
+        }
+
+        .comment-author {
+            font-weight: 700;
+            color: #1e3c72;
+        }
+
+        .comment-date {
+            font-size: 0.85rem;
+            color: #95a5a6;
+        }
+
+        .comment-text {
+            color: #2c3e50;
+            line-height: 1.6;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem 2rem;
+            color: #7f8c8d;
+        }
+
+        .empty-state p {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.75rem;
+            }
+
+            .search-filter {
+                grid-template-columns: 1fr;
+            }
+
+            .post-list {
+                grid-template-columns: 1fr;
+            }
+
+            .post-detail-header h1 {
+                font-size: 1.5rem;
+            }
+
+            .post-detail-meta {
+                flex-direction: column;
+                gap: 0.75rem;
+            }
+
+            .post-detail-body {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        const posts = [
+            {
+                id: 1,
+                title: "Regulación de Casinos en México: Estructura Normativa y Autoridades Competentes",
+                author: "Análisis Jurídico",
+                date: "2024-07-10",
+                category: "Regulación",
+                image: "https://images.unsplash.com/photo-1516975080664-ed2fc6a32937?w=800&h=400&fit=crop",
+                excerpt: "Análisis integral de la estructura regulatoria que gobierna la industria de juegos y sorteos en México, con énfasis en autoridades competentes, obligaciones operacionales y requisitos de cumplimiento normativo.",
+                content: `# Regulación de Casinos en México: Estructura Normativa y Autoridades Competentes
+
+## Marco Legal Aplicable
+
+La regulación de casinos en México descansa en un andamiaje normativo federal y estatal que combina:
+
+- **Ley Federal de Juegos y Sorteos** (LFJS) - Marco principal
+- **Reglamento de la Ley Federal de Juegos y Sorteos** - Especificaciones técnicas
+- **Disposiciones Locales** - Requisitos por entidad federativa
+- **Reforma de la LFPIORPI** (DOF 16-07-2025) - Requisitos PLD/AML
+- **Anexo 17 del RMF 2026** - Reportes a SAT
+
+## Sistema de Autoridades Competentes
+
+### DGJS (Dirección General de Juegos y Sorteos)
+
+**Función**: Autoridad federal reguladora bajo SEGOB
+
+**Competencias principales:**
+- Otorgamiento y revocación de permisos de operador
+- Emisión de licencias por establecimiento
+- Autorización de cambios de ubicación o modificaciones
+- Supervisión técnica de máquinas y sistemas
+- Imposición de sanciones administrativas
+- Vigilancia de cumplimiento normativo integral
+
+### UIF (Unidad de Inteligencia Financiera)
+
+**Función**: Supervisión del cumplimiento PLD/AML bajo SHCP
+
+**Competencias:**
+- Recepción de Reportes de Operación Sospechosa (ROS)
+- Análisis de estructuras de lavado de dinero
+- Imposición de multas por incumplimiento LFPIORPI
+- Coordinación internacional en materia antilavado
+
+### Autoridades Estatales
+
+Cada entidad federativa cuenta con regulador local (ej: ALEGJ en Sonora) que supervisa:
+- Cumplimiento de leyes estatales
+- Cobro de impuestos locales
+- Inspección física periódica
+
+### SAT (Servicio de Administración Tributaria)
+
+- Supervisión del cumplimiento tributario
+- Auditoría de cálculos de IEPS e impuestos locales
+- Validación de reportes vía Anexo 17
+
+## Requisitos Para Obtener Permiso de Operador
+
+### 1. Capacidad Jurídica
+- Constitución como persona moral (SA u otra)
+- Poder notarial de apoderados
+- Acta constitutiva que incluya objeto de juegos
+
+### 2. Capacidad Financiera
+- Estados financieros auditados (últimos 3 años)
+- Comprobante de disponibilidad de recursos
+- Origen legal de fondos documentado
+- Patrimonio mínimo según DGJS
+
+### 3. Obligaciones Operacionales Críticas
+
+**Operacionales**
+- Horarios conforme a regulaciones estatales
+- Acceso restringido a menores de edad
+- Capacitación certificada del personal (mínimo anual)
+- Sistemas de seguridad física y tecnológica
+
+**Reportes y Cumplimiento**
+- **Reportes mensuales a DGJS**: Ingresos, premios, operaciones
+- **Reportes a UIF**: ROS en plazo 5 días hábiles, operaciones conexas
+- **Reportes a SAT**: Anexo 17 con cálculos de IEPS
+- **Auditoría anual**: Dictamen de contador público
+
+## Conclusión
+
+La regulación de casinos en México es rigurosa pero predecible. El éxito operacional depende de comprensión profunda del marco normativo, implementación de sistemas de compliance de alta calidad, relación constructiva con autoridades e inversión sostenida en cumplimiento normativo.`,
+                commentCount: 3
+            },
+            {
+                id: 2,
+                title: "Licencias DGJS: Procedimiento Administrativo y Cronograma de Obtención",
+                author: "Análisis Jurídico",
+                date: "2024-07-08",
+                category: "Licencias",
+                image: "https://images.unsplash.com/photo-1554224311-beee415c15c7?w=800&h=400&fit=crop",
+                excerpt: "Guía procedural completa sobre la obtención de permiso de operador y licencias DGJS, incluyendo etapas administrativas, documentación requerida, plazos estimados y mejores prácticas.",
+                content: `# Licencias DGJS: Procedimiento Administrativo y Cronograma de Obtención
+
+## Introducción: Naturaleza del Trámite
+
+El otorgamiento de permiso de operador ante la DGJS es un acto administrativo que requiere evaluación integral de capacidad jurídica, financiera y técnica, acompañado de riguroso análisis de antecedentes.
+
+## Fases del Procedimiento
+
+### Fase I: Análisis Previo y Preparación (4-8 semanas)
+
+**Evaluación de viabilidad:**
+- Disponibilidad de ubicaciones según regulación estatal
+- Presupuesto de inversión y operación
+- Experiencia del equipo directivo
+- Presupuesto de sistemas de compliance PLD/AML
+
+**Constitución corporativa:**
+- Acta constitutiva especializada con objeto de juegos
+- Registro Público de Comercio
+- Obtención de RFC ante SAT
+- Inscripción en padrones SHCP
+
+### Fase II: Presentación de Solicitud (1-2 semanas)
+
+**Documento Principal:** Escrito de Solicitud dirigido a DGJS que incluya:
+
+1. Datos de persona moral, RFC y objeto social
+2. Información completa de administradores y apoderados
+3. Descripción detallada de capacidad financiera
+4. Propuesta de operación con ubicación específica
+5. Compromiso de cumplimiento normativo integral
+6. Designación de oficial de cumplimiento PLD/AML
+
+### Fase III: Evaluación por DGJS (45-90 días)
+
+- Análisis de solidez económica
+- Patrimonio mínimo según DGJS
+- Verificación de legalidad de fondos
+- Proyecciones de flujo para impuestos
+
+### Cronograma Estimado Total
+
+Preparación: 4-8 semanas  
+Solicitud: 1-2 semanas  
+Evaluación: 45-90 días  
+Requerimientos: 0-6 semanas  
+Resolución: 15-30 días  
+Post-otorgamiento: 4-8 semanas  
+
+**Total estimado: 6-8 MESES**
+
+## Conclusión
+
+La obtención de licencia DGJS requiere preparación exhaustiva, documentación completa de calidad, asesoría legal especializada y relación constructiva con autoridades reguladoras.`,
+                commentCount: 5
+            },
+            {
+                id: 3,
+                title: "LFPIORPI: Obligaciones de Antilavado en Casinos (Reforma 2025-2026)",
+                author: "Análisis Jurídico",
+                date: "2024-07-05",
+                category: "Antilavado",
+                image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&h=400&fit=crop",
+                excerpt: "Análisis actualizado de obligaciones antilavado en casinos conforme a la Reforma LFPIORPI (DOF 16-07-2025) y Reglamento (DOF 27-03-2026), incluyendo KYC, monitoreo, tipologías de riesgo.",
+                content: `# LFPIORPI: Obligaciones de Antilavado en Casinos (Reforma 2025-2026)
+
+## Marco Legal Actualizado
+
+La **Ley Federal para la Prevención e Identificación de Operaciones con Recursos de Procedencia Ilícita** (LFPIORPI) establece obligaciones para casinos como **sujetos obligados** conforme al Artículo 17.
+
+## Reforma Vigente
+- **DOF 16-07-2025**: Reforma integral de LFPIORPI
+- **DOF 27-03-2026**: Reglamento implementación
+- **Aplicación**: Obligatoria 2026 en adelante
+
+## Obligaciones Principales
+
+### 1. Conocimiento del Cliente (KYC)
+
+**Umbral de Beneficiario Controlador:** 25% de participación
+
+**Procedimiento KYC:**
+- Identificación completa del jugador
+- Verificación de identidad con documento oficial
+- Análisis de beneficiarios finales
+- Documentación de origen de fondos
+- Actualización anual de información
+
+### 2. Monitoreo de Operaciones
+
+**Umbrales Operacionales (UMA 2024: $3,249.43):**
+- Operación única: Mayor o igual a 25 UMA (~$81,236 MXN)
+- Operaciones conexas: Suma >= 25 UMA en período de 30 días
+- Operación sospechosa: Independientemente de monto
+
+### 3. Reportes Obligatorios
+
+#### Reporte de Operación Sospechosa (ROS)
+- **Plazo**: 5 días hábiles desde identificación
+- **Destinatario**: UIF (Unidad de Inteligencia Financiera)
+- **Confidencialidad**: Obligatoria
+
+### Conclusión
+
+La LFPIORPI en casinos no es solo un requisito legal sino un instrumento crítico para la integridad del sector. El cumplimiento efectivo requiere inversión sustancial en tecnología, personal especializado y procedimientos documentados.`,
+                commentCount: 8
+            },
+            {
+                id: 4,
+                title: "Impuestos en Gaming: IEPS 50%, Erogaciones y Riesgo de Piramidación",
+                author: "Análisis Jurídico",
+                date: "2024-07-01",
+                category: "Impuestos",
+                image: "https://images.unsplash.com/photo-1579621970563-430f63602acc?w=800&h=400&fit=crop",
+                excerpt: "Análisis tributario de gaming post reforma 2025: IEPS 50%, impuesto sobre erogaciones, riesgos de piramidación fiscal, y estrategias de cumplimiento conforme criterios SCJN.",
+                content: `# Impuestos en Gaming: IEPS 50%, Erogaciones y Riesgo de Piramidación
+
+## Reforma Fiscal 2025: Cambios Principales
+
+La reforma fiscal publicada en DOF 2024 introdujo cambios significativos en tributación de gaming:
+
+**IEPS en Juegos y Sorteos (Artículo 20 LIEPS):**
+- **Tasa**: 50% (AUMENTO de 30% anterior)
+- **Base**: Ingresos brutos del operador
+- **Carácter**: Trasladable al jugador conforme criterio SCJN
+- **Pago**: Mensual ante SAT vía Anexo 17 RMF 2026
+
+## Estructura Tributaria de Casinos
+
+### 1. Impuesto Especial sobre Producción y Servicios (IEPS)
+
+**Hecho Gravado:** Ingresos brutos derivados de operación de juegos de azar
+
+**Fórmula de Cálculo:**
+IEPS = (Apuestas Totales - Premios Pagados) × 50%
+
+**Ejemplo Práctico:**
+- Apuestas recibidas en mes: $10,000,000
+- Premios pagados a jugadores: $8,000,000
+- **Ingreso Bruto**: $2,000,000
+- **IEPS a tasa 50%**: $1,000,000
+
+## Riesgo de Piramidación Fiscal
+
+### Definición Legal
+Aplicación múltiple de impuestos en cascada sobre la misma base imponible.
+
+### Criterio de SCJN
+
+**Tesis Establecida:**
+- **IEPS es trasladable**: El IEPS es un impuesto trasladable al jugador
+- **No constituye costo**: Por tanto, no reduce base de ISR del operador
+- **Erogaciones es legítimo**: Es gravamen local legítimo
+
+## Conclusión
+
+La tributación en gaming post reforma 2025 requiere precisión contable, cumplimiento riguroso de reportes, documentación exhaustiva y asesoramiento técnico especializado permanente.`,
+                commentCount: 6
+            }
+        ];
+
+        function App() {
+            const [currentView, setCurrentView] = useState('list');
+            const [selectedPostId, setSelectedPostId] = useState(null);
+            const [searchTerm, setSearchTerm] = useState('');
+            const [filterCategory, setFilterCategory] = useState('Todos');
+
+            const selectedPost = posts.find(p => p.id === selectedPostId);
+
+            const filteredPosts = posts.filter(post => {
+                const matchSearch = post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                                   post.excerpt.toLowerCase().includes(searchTerm.toLowerCase());
+                const matchCategory = filterCategory === 'Todos' || post.category === filterCategory;
+                return matchSearch && matchCategory;
+            });
+
+            const categories = ['Todos', ...new Set(posts.map(p => p.category))];
+
+            const handleViewPost = (postId) => {
+                setSelectedPostId(postId);
+                setCurrentView('detail');
+                window.scrollTo(0, 0);
+            };
+
+            const handleBack = () => {
+                setCurrentView('list');
+                setSelectedPostId(null);
+            };
+
+            return (
+                <div className="App">
+                    <div className="header">
+                        <h1>🎰 Regulación de Gaming en México</h1>
+                        <p>Análisis jurídico y normativo de la industria de juegos y sorteos</p>
+                    </div>
+                    
+                    {currentView === 'list' ? (
+                        <PostList
+                            posts={filteredPosts}
+                            categories={categories}
+                            searchTerm={searchTerm}
+                            filterCategory={filterCategory}
+                            onSearch={setSearchTerm}
+                            onFilterCategory={setFilterCategory}
+                            onViewPost={handleViewPost}
+                        />
+                    ) : (
+                        <PostDetail
+                            post={selectedPost}
+                            onBack={handleBack}
+                        />
+                    )}
+                </div>
+            );
+        }
+
+        function PostList({ posts, categories, searchTerm, filterCategory, onSearch, onFilterCategory, onViewPost }) {
+            return (
+                <div className="container">
+                    <div className="search-filter">
+                        <div className="search-box">
+                            <label htmlFor="search">🔍 Buscar</label>
+                            <input
+                                id="search"
+                                type="text"
+                                placeholder="Buscar en artículos..."
+                                value={searchTerm}
+                                onChange={(e) => onSearch(e.target.value)}
+                            />
+                        </div>
+                        <div className="filter-box">
+                            <label htmlFor="category">📂 Categoría</label>
+                            <select
+                                id="category"
+                                value={filterCategory}
+                                onChange={(e) => onFilterCategory(e.target.value)}
+                            >
+                                {categories.map(cat => (
+                                    <option key={cat} value={cat}>{cat}</option>
+                                ))}
+                            </select>
+                        </div>
+                    </div>
+
+                    {posts.length > 0 ? (
+                        <div className="post-list">
+                            {posts.map(post => (
+                                <div key={post.id} className="post-card" onClick={() => onViewPost(post.id)}>
+                                    <img src={post.image} alt={post.title} className="post-image" />
+                                    <div className="post-content">
+                                        <div className="post-meta">
+                                            <span className="post-category">{post.category}</span>
+                                            <span className="post-comments">💬 {post.commentCount}</span>
+                                        </div>
+                                        <h3 className="post-title">{post.title}</h3>
+                                        <p className="post-excerpt">{post.excerpt}</p>
+                                        <div className="post-footer">
+                                            <span className="post-date">{new Date(post.date).toLocaleDateString('es-MX', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
+                                            <span style={{ color: '#2a5298', fontWeight: '600', fontSize: '0.9rem' }}>Leer más →</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    ) : (
+                        <div className="empty-state">
+                            <p>No se encontraron artículos con esos criterios.</p>
+                            <p style={{ fontSize: '0.95rem', color: '#95a5a6' }}>Intenta con otros términos de búsqueda.</p>
+                        </div>
+                    )}
+                </div>
+            );
+        }
+
+        function PostDetail({ post, onBack }) {
+            if (!post) return null;
+
+            const renderContent = (content) => {
+                return content.split('\n').map((line, i) => {
+                    if (line.startsWith('# ')) {
+                        return <h2 key={i}>{line.replace('# ', '')}</h2>;
+                    } else if (line.startsWith('## ')) {
+                        return <h3 key={i}>{line.replace('## ', '')}</h3>;
+                    } else if (line.startsWith('- ')) {
+                        return <li key={i}>{line.replace('- ', '')}</li>;
+                    } else if (line.trim() === '') {
+                        return <div key={i} style={{ height: '0.5rem' }}></div>;
+                    } else {
+                        return <p key={i}>{line}</p>;
+                    }
+                });
+            };
+
+            return (
+                <div className="container">
+                    <div className="post-detail">
+                        <div className="post-detail-header">
+                            <button className="post-detail-back" onClick={onBack}>
+                                ← Volver a artículos
+                            </button>
+                            <h1>{post.title}</h1>
+                            <div className="post-detail-meta">
+                                <div className="post-detail-meta-item">
+                                    ✍️ <span>{post.author}</span>
+                                </div>
+                                <div className="post-detail-meta-item">
+                                    📅 <span>{new Date(post.date).toLocaleDateString('es-MX', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
+                                </div>
+                                <div className="post-detail-meta-item">
+                                    📂 <span style={{ backgroundColor: '#2a5298', color: 'white', padding: '0.25rem 0.75rem', borderRadius: '20px' }}>{post.category}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="post-detail-body">
+                            <img src={post.image} alt={post.title} style={{ width: '100%', borderRadius: '8px' }} />
+                            
+                            <div>
+                                {renderContent(post.content)}
+                            </div>
+
+                            <CommentSection postId={post.id} initialCommentCount={post.commentCount} />
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        function CommentSection({ postId }) {
+            const [comments, setComments] = useState([]);
+            const [formData, setFormData] = useState({
+                name: '',
+                email: '',
+                text: ''
+            });
+
+            const commentsKey = `comments_post_${postId}`;
+
+            useEffect(() => {
+                const savedComments = localStorage.getItem(commentsKey);
+                if (savedComments) {
+                    try {
+                        setComments(JSON.parse(savedComments));
+                    } catch (e) {
+                        console.error('Error parsing comments:', e);
+                    }
+                }
+            }, [postId, commentsKey]);
+
+            const handleInputChange = (e) => {
+                const { name, value } = e.target;
+                setFormData(prev => ({
+                    ...prev,
+                    [name]: value
+                }));
+            };
+
+            const handleSubmitComment = (e) => {
+                e.preventDefault();
+                
+                if (!formData.name.trim() || !formData.email.trim() || !formData.text.trim()) {
+                    alert('Por favor completa todos los campos');
+                    return;
+                }
+
+                const newComment = {
+                    id: Date.now(),
+                    name: formData.name,
+                    email: formData.email,
+                    text: formData.text,
+                    date: new Date().toISOString()
+                };
+
+                const updatedComments = [...comments, newComment];
+                setComments(updatedComments);
+                localStorage.setItem(commentsKey, JSON.stringify(updatedComments));
+
+                setFormData({
+                    name: '',
+                    email: '',
+                    text: ''
+                });
+            };
+
+            return (
+                <div className="comments-section">
+                    <h2>💬 Comentarios ({comments.length})</h2>
+
+                    <div className="comment-form">
+                        <h3>Deja tu comentario</h3>
+                        <form onSubmit={handleSubmitComment}>
+                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1rem' }}>
+                                <div className="form-group">
+                                    <label htmlFor="name">Nombre</label>
+                                    <input
+                                        id="name"
+                                        type="text"
+                                        name="name"
+                                        value={formData.name}
+                                        onChange={handleInputChange}
+                                        placeholder="Tu nombre"
+                                    />
+                                </div>
+                                <div className="form-group">
+                                    <label htmlFor="email">Email</label>
+                                    <input
+                                        id="email"
+                                        type="email"
+                                        name="email"
+                                        value={formData.email}
+                                        onChange={handleInputChange}
+                                        placeholder="tu@email.com"
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="form-group">
+                                <label htmlFor="text">Comentario</label>
+                                <textarea
+                                    id="text"
+                                    name="text"
+                                    value={formData.text}
+                                    onChange={handleInputChange}
+                                    placeholder="Comparte tu opinión o pregunta..."
+                                />
+                            </div>
+
+                            <button type="submit" className="btn btn-primary">
+                                Publicar comentario
+                            </button>
+                        </form>
+                    </div>
+
+                    {comments.length > 0 ? (
+                        <div className="comments-list">
+                            {comments.map(comment => (
+                                <div key={comment.id} className="comment">
+                                    <div className="comment-header">
+                                        <span className="comment-author">{comment.name}</span>
+                                        <span className="comment-date">
+                                            {new Date(comment.date).toLocaleDateString('es-MX', { 
+                                                year: 'numeric', 
+                                                month: 'short', 
+                                                day: 'numeric',
+                                                hour: '2-digit',
+                                                minute: '2-digit'
+                                            })}
+                                        </span>
+                                    </div>
+                                    <p className="comment-text">{comment.text}</p>
+                                </div>
+                            ))}
+                        </div>
+                    ) : (
+                        <div style={{ padding: '2rem', textAlign: 'center', color: '#95a5a6' }}>
+                            <p>Aún no hay comentarios. ¡Sé el primero en comentar!</p>
+                        </div>
+                    )}
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
